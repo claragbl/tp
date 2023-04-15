@@ -2,6 +2,8 @@ import com.github.polomarcus.utils.ClimateService
 import com.github.polomarcus.model.CO2Record
 import org.scalatest.funsuite.AnyFunSuite
 
+import javax.crypto.spec.ChaCha20ParameterSpec
+
 //@See https://www.scalatest.org/scaladoc/3.1.2/org/scalatest/funsuite/AnyFunSuite.html
 class ClimateServiceTest extends AnyFunSuite {
 
@@ -139,8 +141,32 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.getMinMaxByYear(listCO2Record, year) == output)
   }
 
-  //@TODO
-  test("filterDecemberData") {
-    assert(true == false)
+  /** TEST OF filterDecemberData() */
+
+  test("filterDecemberData - normal case") {
+    // inputs
+    val listCO2Record = List(Some(CO2Record(2003, 12, 897.9)), Some(CO2Record(2006, 2, 408.8)), Some(CO2Record(2003, 12, 239.9)),
+      Some(CO2Record(2003, 9, 100.8)), Some(CO2Record(2008, 11, 100.8)))
+
+    // output
+    val output = List(CO2Record(2006, 2, 408.8), CO2Record(2003, 9, 100.8), CO2Record(2008, 11, 100.8))
+
+    // we call our function here to test our input and output
+    assert(ClimateService.filterDecemberData(listCO2Record) == output)
   }
+
+  /** test when there is not month of december in the data */
+  test("filterDecemberData - no month of december") {
+    // inputs
+    val listCO2Record = List(Some(CO2Record(2003, 7, 897.9)), Some(CO2Record(2006, 2, 408.8)), Some(CO2Record(2003, 1, 239.9)),
+      Some(CO2Record(2003, 9, 100.8)), Some(CO2Record(2008, 11, 100.8)))
+
+    // output
+    val output = List(CO2Record(2003, 7, 897.9), CO2Record(2006, 2, 408.8), CO2Record(2003, 1, 239.9),
+      CO2Record(2003, 9, 100.8), CO2Record(2008, 11, 100.8))
+
+    // we call our function here to test our input and output
+    assert(ClimateService.filterDecemberData(listCO2Record) == output)
+  }
+
 }

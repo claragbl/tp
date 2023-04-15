@@ -55,9 +55,10 @@ object ClimateService {
    * @param a list
    * @return a list
    */
-  def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = ???
+  def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = {
+      list.flatten.filterNot(_.month == 12)
+  }
 
-  def getMinMax(list: List[CO2Record]) : (Double, Double) = ???
 
   /**
    * function that find the maximum and the minimum ppm for a specific year
