@@ -7,7 +7,7 @@ class ClimateServiceTest extends AnyFunSuite {
 
   /** TEST OF isClimateRelated() */
 
-  /* test returning false */
+  /** test returning false */
   test("containsWordGlobalWarming - non climate related words should return false") {
     /* Test that the function correctly detects the presence of the word "global warming" in a sentence */
     assert( ClimateService.isClimateRelated("pizza") == false)
@@ -15,7 +15,7 @@ class ClimateServiceTest extends AnyFunSuite {
     assert( ClimateService.isClimateRelated("") == false)
   }
 
-  /* test returning true */
+  /** test returning true */
   test("isClimateRelated - climate related words should return true") {
     /* Test that the function correctly detects the presence of the phrase "climate change" in a sentence */
     assert(ClimateService.isClimateRelated("climate change") == true)
@@ -27,7 +27,7 @@ class ClimateServiceTest extends AnyFunSuite {
 
   /** TEST OF parseRawData() */
 
-  /* test if the function returns the 2 records when both ppm are positives */
+  /** test if the function returns the 2 records when both ppm are positives */
   test("parseRawData") {
     // our inputs
     val firstRecord = (2003, 1, 355.2)     //help: to acces 2003 of this tuple, you can do firstRecord._1
@@ -43,7 +43,7 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.parseRawData(list1) == output)
   }
 
-  /* test if the function returns one None and one record when the first ppm is negative */
+  /** test if the function returns one None and one record when the first ppm is negative */
   test("parseRawData - 1 negative ppm") {
     // our inputs
     val firstRecord = (2003, 1, -355.2) //help: to acces 2003 of this tuple, you can do firstRecord._1
@@ -58,7 +58,7 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.parseRawData(list1) == output)
   }
 
-  /* test if the function returns a list of None when the ppm are negatives */
+  /** test if the function returns a list of None when the ppm are negatives */
   test("parseRawData - 2 negative ppm") {
     // our inputs
     val firstRecord = (2003, 1, -355.2) //help: to acces 2003 of this tuple, you can do firstRecord._1
@@ -72,7 +72,7 @@ class ClimateServiceTest extends AnyFunSuite {
     assert(ClimateService.parseRawData(list1) == output)
   }
 
-  /* test if the function returns the records when both input ppm are = 0 */
+  /** test if the function returns the records when both input ppm are = 0 */
   test("parseRawData - ppms == 0") {
     // our inputs
     val firstRecord = (2003, 1, 0.0) //help: to acces 2003 of this tuple, you can do firstRecord._1
@@ -89,6 +89,54 @@ class ClimateServiceTest extends AnyFunSuite {
   /* test if the function returns en empty list when the param list is empty*/
   test("parseRawData - empty list") {
     assert(ClimateService.parseRawData(List.empty) == List.empty)
+  }
+
+  /** TEST OF getMinMaxByYear() */
+
+  /** test if the function returns correctly the min and the max  */
+  test("getMinMaxByYear - return the min and max, random case") {
+  // inputs
+  val listCO2Record = List(CO2Record(2003, 5, 897.9), CO2Record(2006, 2, 408.8), CO2Record(2003, 9, 239.9), CO2Record(2003, 3, 100.8), CO2Record(2008, 3, 100.8))
+  val year = 2003
+
+  // output
+  val output = Some(100.8, 897.9)
+
+  // we call our function here to test our input and output
+    assert(ClimateService.getMinMaxByYear(listCO2Record, year) == output)
+  }
+
+  /** test if the function returns None if the list in parameter is empty */
+  test("getMinMaxByYear - empty list") {
+    // inputs
+    val listCO2Record = List.empty[CO2Record]
+    val year = 2003
+
+    // we call our function here to test our input and output
+    assert(ClimateService.getMinMaxByYear(listCO2Record, year) == None)
+  }
+
+  /** test if the function returns None if year in input is not present in the list in input */
+  test("getMinMaxByYear - year not present in the list") {
+    // inputs
+    val listCO2Record = List(CO2Record(2003, 5, 897.9), CO2Record(2006, 2, 408.8), CO2Record(2003, 9, 239.9), CO2Record(2003, 3, 100.8), CO2Record(2008, 3, 100.8))
+    val year = 2009
+
+    // we call our function here to test our input and output
+    assert(ClimateService.getMinMaxByYear(listCO2Record, year) == None)
+  }
+
+  /** test if the function returns the same min and max when min == max  */
+  test("getMinMaxByYear - return the same value for min and max, when min == max") {
+    // inputs
+    val listCO2Record = List(CO2Record(2003, 5, 100.8), CO2Record(2006, 2, 408.8), CO2Record(2003, 3, 100.8), CO2Record(2008, 3, 100.8))
+    val year = 2003
+
+    // output
+    val output = Some(100.8, 100.8)
+
+    // we call our function here to test our input and output
+    assert(ClimateService.getMinMaxByYear(listCO2Record, year) == output)
   }
 
   //@TODO

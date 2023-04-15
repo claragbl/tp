@@ -61,11 +61,26 @@ object ClimateService {
 
   /**
    * function that find the maximum and the minimum ppm for a specific year
-   *
-   * @param
+   * @param:
+   *  int, the year
+   *  List[C02Record], list of C02Record objects
    * @return: (double, double) => set of maximum and minimum ppm for the year passed in arg
    */
-  def getMinMaxByYear(list: List[CO2Record], year: Int) : (Double, Double) = ???
+  def getMinMaxByYear(list: List[CO2Record], year: Int) : Option[(Double, Double)] = {
+    /* list of all the CO2Record for the specified year*/
+    val listCO2RecordSpecificYear = list.filter(_.year == year)
+
+    if (list.isEmpty || listCO2RecordSpecificYear.isEmpty) {
+      /* empty list return None*/
+      None
+    }
+    else {
+      val listPpmSpecificYear = listCO2RecordSpecificYear.map(_.ppm)
+
+      /* return the minimum and the maximum */
+      Some(listPpmSpecificYear.min, listPpmSpecificYear.max)
+    }
+  }
 
   /**
    * use this function side src/main/scala/com/polomarcus/main/Main (with sbt run)
