@@ -14,38 +14,57 @@ object ClimateService {
    * IPCC
    * climate change
    * @param description "my awesome sentence contains a key word like climate change"
-   * @return Boolean True
+   * @return Boolean True if there is one of these climate related words in the function parameter
    */
   def isClimateRelated(description: String): Boolean = {
+    /* list of the climate related words */
     val climateTerms = List("global warming", "IPCC", "climate change", "carbon footprint")
+
+    /* test if one of the word of the description parameter is present in the climateTerms list */
     climateTerms.exists(term => description.toLowerCase.contains(term.toLowerCase))
   }
+
   /**
    * parse a list of raw data and transport it with type into a list of CO2Record
    * if the ppm value is valid (some ppm values are negative (CO2Record's "isValidPpmValue" function))
    * --> Some(value)
    * otherwise : None
    * you can access to Tuple with myTuple._1, myTuple._2, myTuple._3
+   * @param: list[(Int, Int, Double)]: year, month, ppm -> row datas
+   * @return: list of None and Option[CO2Record] object
    */
   def parseRawData(list: List[(Int, Int, Double)]) : List[Option[CO2Record]] = {
-    list.map { record => ??? }
-    ???
+    /* transform each value of the parameter list to and Option[CO2Record] object */
+    list.map {
+      case (year, month, ppm) =>
+        /* test if the ppm is valid (valid = not negative) */
+        if (CO2Record(year, month, ppm).isValidPpmValue) {
+          /* ppm valid => return the CO2Record object */
+          Some(CO2Record(year, month, ppm))
+        }
+        else {
+          /* ppm not valid so return None */
+          None
+        }
+    }
   }
 
   /**
    * remove all values from december (12) of every year
    *
-   * @param list
+   * @param a list
    * @return a list
    */
   def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = ???
 
-
-  /**
-   * **Tips**: look at the read me to find some tips for this function
-   */
   def getMinMax(list: List[CO2Record]) : (Double, Double) = ???
 
+  /**
+   * function that find the maximum and the minimum ppm for a specific year
+   *
+   * @param
+   * @return: (double, double) => set of maximum and minimum ppm for the year passed in arg
+   */
   def getMinMaxByYear(list: List[CO2Record], year: Int) : (Double, Double) = ???
 
   /**

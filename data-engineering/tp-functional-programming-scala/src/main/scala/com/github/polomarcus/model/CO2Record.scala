@@ -13,6 +13,10 @@ case class CO2Record (year: Int,
   }
 
   def isValidPpmValue: Boolean = {
+    /**
+     * function that test if the ppm value is correct or not
+     * @return : true if ppm > 0, false otherwise
+     */
     ppm > 0
   }
 }
