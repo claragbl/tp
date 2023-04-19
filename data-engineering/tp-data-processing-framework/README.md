@@ -4,11 +4,36 @@
 To process a large amount of data partitioned on a data lake, you can use data processing frameworks such as Apache Spark :
 1. Read : https://spark.apache.org/docs/latest/sql-programming-guide.html
 
-Some questions :
-* What is Spark RDD API ?
-* What is Spark Dataset API ?
-* With which languages can you use Spark ? 
-* Which data sources or data sinks can Spark work with ? 
+Some questions : 
+
+**Apache Spark** is a data processing framework that is able to perform processing task efficiently on large datasets. It 
+provides API i differents programming languages.  
+**Spark SQL** provide Spark with more information about the structure of both the data and the computation being performed
+
+* What is Spark RDD API ?  
+RDD stands for **Resilient Distributed Dataset** and it's a concept at the hear of Apache Spark that  that represents an 
+immutable collection of objects that can be split across a computing cluster. The Spark RDD API allows us to perform various 
+transformations and actions on those RDD for advanced data processing. 
+
+* What is Spark Dataset API ?  
+The Spark Dataset API is a distributed collection of data that provides the benefits of both RDDs and DataFrames in Apache Spark
+
+* With which languages can you use Spark ?  
+-> scala  
+-> python   
+-> R  
+-> Java   
+-> SQL  
+
+* Which data sources or data sinks can Spark work with ?  
+  (Data Sink = récepteur de données)  
+Apache spark allows user to read data from various sources and it allows to write them in 
+various destinations.   
+-> Databases  
+-> File systems   
+-> Data lakes   
+-> Message brokers: software component or service that facilitates communication between different applications or systems by allowing them to send and receive messages asynchronously.    
+-> Streaming sources : data from various sources in real-time or near real-time, enabling processing of continuous data streams.
 
 ### Analyse data with Apache Spark and Scala 
 One engineering team of your company created for you a TV News data stored as JSON inside the folder `data-news-json/`.
