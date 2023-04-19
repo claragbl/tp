@@ -96,7 +96,9 @@ object ClimateService {
     val filteredList = filterDecemberData(list)
 
     logger.info("Call CO2Record.show function here inside a map function")
-    filteredList.map(_.show())
+    filteredList.map { record =>
+      logger.info(record.show())
+    }
 
     val numberNoneValues = list.count(_.isEmpty)
     logger.info(s"The number of None values int the list is: $numberNoneValues")
