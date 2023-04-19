@@ -35,9 +35,10 @@ object NewsService {
         news.editorDeputy,
         news.url,
         news.urlTvNews,
-        news.containsWordGlobalWarming, // @TODO: we need to apply a function here from ClimateService
+        ClimateService.isClimateRelated(news.title + news.description), // @TODO: we need to apply a function here from ClimateService
         news.media
       )
+
 
       enrichedNews
     }
@@ -53,7 +54,7 @@ object NewsService {
    */
   def filterNews(newsDataset: Dataset[News]) : Dataset[News] = {
     newsDataset.filter { news =>
-      ??? //@TODO complete here
+      news.containsWordGlobalWarming //keep only the news which title or description are talking about global warming
     }
   }
 
@@ -66,7 +67,6 @@ object NewsService {
    * @return Boolean True
    */
   def getNumberOfNews(dataset: Dataset[News]): Long = {
-    //@TODO look a the Spark API to know how to count
-    return 1 // code here
+    dataset.count()
   }
 }
