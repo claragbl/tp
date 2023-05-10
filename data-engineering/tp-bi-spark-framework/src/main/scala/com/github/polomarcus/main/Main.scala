@@ -10,10 +10,11 @@ object Main {
     val logger = Logger(this.getClass)
     logger.info("Used `sbt run` to start the app")
 
-    // This is our Spark starting point
+    // This is our Spark starting point -> SparkService class
     // Open file "src/main/scala/utils/SparkService.scala"
     // Read more about it here : https://spark.apache.org/docs/latest/sql-getting-started.html#starting-point-sparksession
     val spark = SparkService.getAndConfigureSparkSession()
+    // la variable spark va nous permettre d'avoir accès a tous les outils spark
     import spark.implicits._
 
     // Read a JSON data source with the path "./data-news-json"
@@ -37,7 +38,7 @@ object Main {
     logger.info(s"We have ${count} news in our dataset")
 
     //@TODO Save using PostgresService.save function
-    ???
+    PostgresService.save(enrichedDataset)
     
     logger.info("Stopping the app")
     spark.stop()
